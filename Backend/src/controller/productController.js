@@ -4,6 +4,7 @@ import { SUCCESS_MESSAGES } from "../constants/successMessage.js";
 
 import productService from "../service/productService.js";
 import storeService from "../service/storeService.js";
+import Store from "../model/storeSchema.js";
 
 
 class ProductController {
@@ -16,8 +17,14 @@ class ProductController {
             }
 
             const stores = await storeService.getAllStores();
-            const stock = stores.map((s) => ({ store: s._id, quantity: 0 }));
-            const product = await productService.createProduct({ name: name.trim(), sku: sku.trim(), stock });
+            const product = await productService.createProduct({ name: name.trim(), sku: sku.trim() });
+            await Store.insertMany(
+                stores.map((store) => ({
+                    product: product._id,
+                    store: store._id,
+                    quantity: 0,
+                }))
+            );
 
             res.status(STATUS_CODES.CREATED).json({ status: true, message: SUCCESS_MESSAGES.DATA_RETRIEVED, product });
         } catch (error) {
