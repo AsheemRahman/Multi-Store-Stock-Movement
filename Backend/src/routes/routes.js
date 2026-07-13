@@ -6,9 +6,9 @@ const router = Router();
 
 
 import authController from '../controller/authController.js';
-// import productController from '../controller/userController/homeController';
-// import stockController from '../controller/userController/homeController';
-// import storeController from '../controller/userController/homeController';
+import productController from '../controller/productController.js';
+// import stockController from '../controller/stockController.js';
+// import storeController from '../controller/storeController.js';
 
 
 // //------------------------------ login -------------------------------
@@ -19,8 +19,8 @@ router.post('/login', authController.login);
 
 // //----------------------------- Product ------------------------------
 
-// router.post('/products', productController.createProduct);
-// router.get('/products', productController.getProducts);
+router.get('/products', productController.getProducts);
+router.post('/products', productController.createProduct);
 
 
 // //------------------------------ Store -------------------------------

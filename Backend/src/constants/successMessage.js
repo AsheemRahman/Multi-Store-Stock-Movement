@@ -8,8 +8,8 @@ export const SUCCESS_MESSAGES = {
     OTP_VERIFIED: "OTP verified successfully",
     OTP_SENT: "OTP has sent to your email",
 
-    COURSE_FETCH: 'Course Fetched Successfully',
-    CATEGORY_FETCH: 'Category Created Successfully',
+    PRODUCT_FETCH: 'Product Fetched Successfully',
+    STORE_FETCH: 'Store Fetched Successfully',
 
     DATA_RETRIEVED: "Data retrieved successfully",
 
