@@ -7,8 +7,8 @@ const router = Router();
 
 import authController from '../controller/authController.js';
 import productController from '../controller/productController.js';
+import storeController from '../controller/storeController.js';
 // import stockController from '../controller/stockController.js';
-// import storeController from '../controller/storeController.js';
 
 
 // //------------------------------ login -------------------------------
@@ -19,14 +19,14 @@ router.post('/login', authController.login);
 
 // //----------------------------- Product ------------------------------
 
-router.get('/products', productController.getProducts);
-router.post('/products', productController.createProduct);
+router.get('/products', requireAuth, productController.getProducts);
+router.post('/products', requireAuth, requireAdmin, productController.createProduct);
 
 
 // //------------------------------ Store -------------------------------
 
-// router.get('/stores', storeController.getStores);
-// router.post('/stores', storeController.createStore);
+router.get('/stores', requireAuth, storeController.getStores);
+router.post('/stores', requireAuth, requireAdmin, storeController.createStore);
 
 
 // //--------------------------- Adjust Stock ----------------------------

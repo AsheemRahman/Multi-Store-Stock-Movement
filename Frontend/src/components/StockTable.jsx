@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default function StockTable({ products, isAdmin, onAdjust, onTransfer, lowStockThreshold }) {
+  console.log("Rendering StockTable with products:", products);
+  console.log(products);
+  console.log(products[0]);
+  console.log(products[0]?.stock);
   return (
     <table className="stock-table">
       <thead>

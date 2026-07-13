@@ -25,8 +25,8 @@ export default function Dashboard() {
         api.listProducts(auth.token),
         api.listStores(auth.token),
       ]);
-      setProducts(p);
-      setStores(s);
+      setProducts(p.products);
+      setStores(s.stores);
     } catch (err) {
       setError(err.message);
     }
