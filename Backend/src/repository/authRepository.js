@@ -1,14 +1,14 @@
-import User from "../../models/User.js";
+import User from "../model/authSchema.js";
 
 class AuthRepository {
     async findByEmail(email) {
-        return await User.findOne({
+        return await Auth.findOne({
             email: email.toLowerCase(),
         });
     }
 
     async createUser(userData) {
-        return await User.create(userData);
+        return await Auth.create(userData);
     }
 }
 

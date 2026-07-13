@@ -23,6 +23,6 @@ const userSchema = new Schema(
     }, { timestamps: true, }
 );
 
-const User = mongoose.model("User", userSchema);
+const Auth = mongoose.model("Auth", userSchema);
 
-export default User;
+export default Auth;

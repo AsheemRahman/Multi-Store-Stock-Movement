@@ -5,7 +5,7 @@ import { requireAuth, requireAdmin } from '../middleware/verify.js';
 const router = Router();
 
 
-// import authController from '../controller/userController/userController';
+import authController from '../controller/authController.js';
 // import productController from '../controller/userController/homeController';
 // import stockController from '../controller/userController/homeController';
 // import storeController from '../controller/userController/homeController';
@@ -13,8 +13,8 @@ const router = Router();
 
 // //------------------------------ login -------------------------------
 
-// router.post('/register', authController.register);
-// router.post('/login', authController.login);
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 
 
 // //----------------------------- Product ------------------------------

@@ -1,9 +1,10 @@
-import authService from "../../services/user/authService.js";
-import JwtUtility from "../../utils/JwtUtility.js";
+import { STATUS_CODES } from "../constants/statusCode.js";
+import { ERROR_MESSAGES } from "../constants/errorMessage.js";
+import { SUCCESS_MESSAGES } from "../constants/successMessage.js";
 
-import { STATUS_CODES } from "../../constants/statusCode.js";
-import { ERROR_MESSAGES } from "../../constants/errorMessage.js";
-import { SUCCESS_MESSAGES } from "../../constants/successMessage.js";
+import authService from "../service/authService.js";
+import JwtUtility from "../utils/JwtUtility.js";
+
 
 class AuthController {
     async register(req, res) {
