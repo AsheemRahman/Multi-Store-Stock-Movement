@@ -15,8 +15,8 @@ export default function Register() {
     e.preventDefault();
     setError('');
     try {
-      const data = await api.register({ email, password, role });
-      login(data);
+      const res = await api.register({ email, password, role });
+      login(res.data);
       navigate('/');
     } catch (err) {
       setError(err.message);

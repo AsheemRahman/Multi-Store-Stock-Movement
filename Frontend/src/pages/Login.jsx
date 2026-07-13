@@ -14,8 +14,8 @@ export default function Login() {
     e.preventDefault();
     setError('');
     try {
-      const data = await api.login({ email, password });
-      login(data);
+      const res = await api.login({ email, password });
+      login(res.data);
       navigate('/');
     } catch (err) {
       setError(err.message);

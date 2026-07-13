@@ -12,11 +12,11 @@ class AuthController {
             const { email, password, role } = req.body;
 
             if (!email || !password) {
-                return res.status(STATUS_CODES.BAD_REQUEST).json({  message: ERROR_MESSAGES.INVALID_INPUT,});
+                return res.status(STATUS_CODES.BAD_REQUEST).json({ message: ERROR_MESSAGES.INVALID_INPUT, });
             }
 
-            const user = await authService.register( email, password, role === "admin" ? "admin" : "shopper");
-            const accessToken = JwtUtility.generateAccessToken({ userId: user._id.toString(), role: user.role,});
+            const user = await authService.register(email, password, role === "admin" ? "admin" : "shopper");
+            const accessToken = JwtUtility.generateAccessToken({ userId: user._id.toString(), role: user.role, });
 
             res.status(STATUS_CODES.CREATED).json({
                 status: true,
@@ -38,7 +38,8 @@ class AuthController {
                     message: ERROR_MESSAGES.EMAIL_ALREADY_EXIST,
                 });
             }
-            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Failed to register",});
+            console.log(`Error occurred while logging in: ${error}`);
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Failed to register", });
         }
     }
 
@@ -53,7 +54,7 @@ class AuthController {
             }
 
             const user = await authService.login(email, password);
-            const accessToken = JwtUtility.generateAccessToken({ userId: user._id.toString(), role: user.role,});
+            const accessToken = JwtUtility.generateAccessToken({ userId: user._id.toString(), role: user.role, });
 
             res.status(STATUS_CODES.OK).json({
                 status: true,
@@ -74,7 +75,8 @@ class AuthController {
                     message: ERROR_MESSAGES.INVALID_CREDENTIALS,
                 });
             }
-            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({  message: "Failed to login",});
+            console.log(`Error occurred while logging in: ${error}`);
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Failed to login", });
         }
     }
 }

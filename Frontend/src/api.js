@@ -13,9 +13,8 @@ async function request(path, { method = 'GET', body, token } = {}) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    const message = data?.error?.message || `Request failed (${res.status})`;
+    const message = data?.message || `Request failed (${res.status})`;
     const err = new Error(message);
-    err.code = data?.error?.code;
     err.status = res.status;
     throw err;
   }
@@ -24,8 +23,8 @@ async function request(path, { method = 'GET', body, token } = {}) {
 }
 
 export const api = {
-  register: (payload) => request('/auth/register', { method: 'POST', body: payload }),
-  login: (payload) => request('/auth/login', { method: 'POST', body: payload }),
+  register: (payload) => request('/register', { method: 'POST', body: payload }),
+  login: (payload) => request('/login', { method: 'POST', body: payload }),
   listProducts: (token) => request('/products', { token }),
   createProduct: (token, payload) => request('/products', { method: 'POST', body: payload, token }),
   listStores: (token) => request('/stores', { token }),
