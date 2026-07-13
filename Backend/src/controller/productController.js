@@ -17,12 +17,12 @@ class ProductController {
 
             const stores = await storeService.getAllStores();
             const stock = stores.map((s) => ({ store: s._id, quantity: 0 }));
-            const product = await productService.createProduct({ name: name.trim(), sku: sku.trim(), stock: 0 });
+            const product = await productService.createProduct({ name: name.trim(), sku: sku.trim(), stock });
 
             res.status(STATUS_CODES.CREATED).json({ status: true, message: SUCCESS_MESSAGES.DATA_RETRIEVED, product });
         } catch (error) {
-            console.log(`Error occurred while logging in: ${error}`);
-            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Failed to register", });
+            console.error(`Error occurred while creating product: ${error}`);
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Failed to create product", });
         }
     }
 
@@ -31,7 +31,7 @@ class ProductController {
             const products = await productService.getAllProducts();
             res.status(STATUS_CODES.OK).json({ status: true, message: SUCCESS_MESSAGES.DATA_RETRIEVED, products });
         } catch (error) {
-            console.log(`Error occurred while fetching products: ${error}`);
+            console.error(`Error occurred while fetching products: ${error}`);
             res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Failed to fetch products", });
         }
     }

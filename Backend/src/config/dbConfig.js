@@ -6,7 +6,7 @@ const mongoDB = async () => {
         await mongoose.connect(`${process.env.MONGO_URI}`, { dbName: "Multi-Store", });
         console.log("mongodb is connected");
     } catch (error) {
-        console.log("error while connectiong with mongodb", error);
+        console.error("error while connectiong with mongodb", error);
     }
 };
 
