@@ -1,0 +1,74 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f6f8;
+  color: #1a1a1a;
+}
+
+.auth-card {
+  max-width: 360px;
+  margin: 80px auto;
+  background: white;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.auth-card form { display: flex; flex-direction: column; gap: 12px; }
+.auth-card label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.auth-card input, .auth-card select {
+  padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;
+}
+.auth-card button {
+  padding: 10px; border: none; border-radius: 4px; background: #2563eb; color: white;
+  font-size: 14px; cursor: pointer;
+}
+
+.dashboard { max-width: 960px; margin: 0 auto; padding: 24px; }
+.dashboard header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+}
+.badge { margin-right: 12px; font-size: 13px; color: #555; }
+
+.admin-panel {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+  background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.inline-form { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.inline-form input { padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
+.inline-form button {
+  padding: 6px 12px; border: none; border-radius: 4px; background: #2563eb; color: white; cursor: pointer;
+}
+
+.filter-bar { margin-bottom: 12px; }
+.filter-bar label { display: flex; gap: 8px; align-items: center; font-size: 14px; }
+.filter-bar input { padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; width: 100px; }
+
+.stock-table {
+  width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.stock-table th, .stock-table td {
+  text-align: left; padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 14px;
+}
+.stock-table tr.low-stock td { background: #fff4f4; color: #b91c1c; }
+.row-actions button {
+  margin-right: 6px; padding: 4px 8px; font-size: 12px; cursor: pointer;
+  border: 1px solid #ccc; border-radius: 4px; background: white;
+}
+
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: white; padding: 24px; border-radius: 8px; width: 320px;
+}
+.modal form { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.modal label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.modal input, .modal select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.modal-actions button { padding: 8px 14px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; }
+.modal-actions button[type="submit"] { background: #2563eb; color: white; border: none; }
+
+.error { color: #b91c1c; font-size: 13px; }
