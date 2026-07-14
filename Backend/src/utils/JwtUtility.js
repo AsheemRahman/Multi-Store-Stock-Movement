@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const accessSecret = process.env.JWT_ACCESS_TOKEN_SECRET_KEY;
+const accessSecret = process.env.JWT_TOKEN_SECRET_KEY;
 const refreshSecret = process.env.JWT_REFRESH_TOKEN_SECRET_KEY;
 
 class JwtUtility {
