@@ -12,21 +12,53 @@ class StockRepository {
     }
 
     async adjustStock({ productId, storeId, change }) {
-
         if (change === 0) {
             throw new Error("Invalid adjustment.");
         }
 
         let stock;
+
         if (change > 0) {
-            stock = await Stock.findOneAndUpdate({ product: productId, store: storeId }, { $inc: { quantity: change } }, { upsert: true, setDefaultsOnInsert: true, returnDocument: "after", });
-        }
-        else {
-            stock = await Stock.findOneAndUpdate({ product: productId, store: storeId }, { $inc: { quantity: change } }, { upsert: true, setDefaultsOnInsert: true, returnDocument: "after" });
+            stock = await Stock.findOneAndUpdate(
+                {
+                    product: productId,
+                    store: storeId
+                },
+                {
+                    $inc: {
+                        quantity: change
+                    }
+                },
+                {
+                    upsert: true,
+                    setDefaultsOnInsert: true,
+                    returnDocument: "after",
+                }
+            );
+        } else {
+            stock = await Stock.findOneAndUpdate(
+                {
+                    product: productId,
+                    store: storeId,
+                    quantity: {
+                        $gte: Math.abs(change)
+                    }
+                },
+                {
+                    $inc: {
+                        quantity: change
+                    }
+                },
+                {
+                    returnDocument: "after"
+                }
+            );
+
             if (!stock) {
                 throw new Error("Insufficient stock.");
             }
         }
+
         return stock;
     }
 
