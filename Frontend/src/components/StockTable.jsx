@@ -1,10 +1,11 @@
 import React from 'react';
 
-export default function StockTable({ products, isAdmin, onAdjust, onTransfer, lowStockThreshold }) {
-  console.log("Rendering StockTable with products:", products);
-  console.log(products);
-  console.log(products[0]);
-  console.log(products[0]?.stock);
+export default function StockTable({ products, isAdmin, onAdjust, onTransfer }) {
+
+  if (!products.length) {
+    return <h3>No Stock Found</h3>;
+  }
+
   return (
     <table className="stock-table">
       <thead>
@@ -17,29 +18,24 @@ export default function StockTable({ products, isAdmin, onAdjust, onTransfer, lo
         </tr>
       </thead>
       <tbody>
-        {products.flatMap((p) =>
-          p.stock.map((entry) => {
-            const storeName = entry.store?.name || entry.store;
-            const low =
-              lowStockThreshold !== '' &&
-              lowStockThreshold !== undefined &&
-              entry.quantity <= Number(lowStockThreshold);
-            return (
-              <tr key={`${p._id}-${entry.store?._id || entry.store}`} className={low ? 'low-stock' : ''}>
-                <td>{p.name}</td>
-                <td>{p.sku}</td>
-                <td>{storeName}</td>
-                <td>{entry.quantity}</td>
-                {isAdmin && (
-                  <td className="row-actions">
-                    <button onClick={() => onAdjust(p)}>Adjust</button>
-                    <button onClick={() => onTransfer(p)}>Transfer</button>
-                  </td>
-                )}
-              </tr>
-            );
-          })
-        )}
+        {products.map(stock => (
+          <tr key={stock._id}>
+            <td>{stock.product?.name}</td>
+            <td>{stock.product?.sku}</td>
+            <td>{stock.store?.name}</td>
+            <td>{stock.quantity}</td>
+            {isAdmin && (
+              <td>
+                <button onClick={() => onAdjust(stock)}>
+                  Adjust
+                </button>
+                <button onClick={() => onTransfer(stock)}>
+                  Transfer
+                </button>
+              </td>
+            )}
+          </tr>
+        ))}
       </tbody>
     </table>
   );

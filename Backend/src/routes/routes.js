@@ -31,9 +31,9 @@ router.post('/stores', requireAuth, requireAdmin, storeController.createStore);
 
 // //------------------------------ Stock -------------------------------
 
-router.get('/stock', stockController.adjustStock);
-router.post('/stock/adjust', stockController.adjustStock);
-router.post('/stock/transfer', stockController.transferStock);
+router.get('/stock', requireAuth, stockController.getStocks);
+router.post('/stock/adjust', requireAuth, requireAdmin, stockController.adjustStock);
+router.post('/stock/transfer', requireAuth, requireAdmin, stockController.transferStock);
 
 
 export default router;

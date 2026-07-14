@@ -5,6 +5,7 @@ import { SUCCESS_MESSAGES } from "../constants/successMessage.js";
 import productService from "../service/productService.js";
 import storeService from "../service/storeService.js";
 import Store from "../model/storeSchema.js";
+import Stock from "../model/stockSchema.js";
 
 
 class ProductController {
@@ -15,16 +16,19 @@ class ProductController {
             if (!name || !name.trim() || !sku || !sku.trim()) {
                 return res.status(STATUS_CODES.BAD_REQUEST).json({ message: ERROR_MESSAGES.INVALID_INPUT, });
             }
+            const product = await productService.createProduct({ name: name.trim(), sku: sku.trim() });
 
             const stores = await storeService.getAllStores();
-            const product = await productService.createProduct({ name: name.trim(), sku: sku.trim() });
-            await Store.insertMany(
-                stores.map((store) => ({
-                    product: product._id,
-                    store: store._id,
-                    quantity: 0,
-                }))
-            );
+            const stockDocs = stores.map(store => ({
+                product: product._id,
+                store: store._id,
+                quantity: 0
+            }));
+
+            // Insert all stock documents
+            if (stockDocs.length > 0) {
+                await Stock.insertMany(stockDocs);
+            }
 
             res.status(STATUS_CODES.CREATED).json({ status: true, message: SUCCESS_MESSAGES.DATA_RETRIEVED, product });
         } catch (error) {

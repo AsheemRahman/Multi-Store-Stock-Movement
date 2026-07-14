@@ -21,16 +21,19 @@ export default function Dashboard() {
   const refresh = useCallback(async () => {
     setError('');
     try {
-      const [p, s] = await Promise.all([
-        api.listProducts(auth.token),
+      const [stocks, stores] = await Promise.all([
+        api.listStock(
+          auth.token,
+          threshold ? `?threshold=${threshold}` : ""
+        ),
         api.listStores(auth.token),
       ]);
-      setProducts(p.products);
-      setStores(s.stores);
+      setProducts(stocks);
+      setStores(stores.stores || stores);
     } catch (err) {
       setError(err.message);
     }
-  }, [auth.token]);
+  }, [auth?.token, threshold]);
 
   useEffect(() => {
     refresh();
@@ -89,7 +92,7 @@ export default function Dashboard() {
 
       {adjustTarget && (
         <AdjustModal
-          product={adjustTarget}
+          product={adjustTarget.product}
           stores={stores}
           onClose={() => setAdjustTarget(null)}
           onSubmit={async (payload) => {

@@ -12,21 +12,17 @@ class StockRepository {
     }
 
     async adjustStock({ productId, storeId, change }) {
+
         if (change === 0) {
             throw new Error("Invalid adjustment.");
         }
 
         let stock;
         if (change > 0) {
-            stock = await Stock.findOneAndUpdate({ product: productId, store: storeId }, { $inc: { quantity: change } }, { new: true });
+            stock = await Stock.findOneAndUpdate({ product: productId, store: storeId }, { $inc: { quantity: change } }, { upsert: true, setDefaultsOnInsert: true, returnDocument: "after", });
         }
-
         else {
-
-            stock = await Stock.findOneAndUpdate(
-                { product: productId, store: storeId, quantity: { $gte: Math.abs(change) }}, {  $inc: {  quantity: change }}, { new: true }
-            );
-
+            stock = await Stock.findOneAndUpdate({ product: productId, store: storeId }, { $inc: { quantity: change } }, { upsert: true, setDefaultsOnInsert: true, returnDocument: "after" });
             if (!stock) {
                 throw new Error("Insufficient stock.");
             }
@@ -34,7 +30,7 @@ class StockRepository {
         return stock;
     }
 
-    async transferStock({ productId, sourceStoreId, destinationStoreId, quantity}) {
+    async transferStock({ productId, sourceStoreId, destinationStoreId, quantity }) {
 
         if (quantity <= 0) {
             throw new Error("Quantity must be positive.");
@@ -52,8 +48,8 @@ class StockRepository {
                     {
                         product: productId,
                         store: sourceStoreId,
-                        quantity: { $gte: quantity}
-                    },  { $inc: {  quantity: -quantity }}, {  new: true, session}
+                        quantity: { $gte: quantity }
+                    }, { $inc: { quantity: -quantity } }, { new: true, session }
                 );
 
                 if (!source) {
@@ -61,9 +57,10 @@ class StockRepository {
                 }
 
                 const destination = await Stock.findOneAndUpdate(
-                    { product: productId, store: destinationStoreId}, { $inc: { quantity: quantity }}, {  new: true, session}
+                    { product: productId, store: destinationStoreId }, { $inc: { quantity: quantity } },
+                    { new: true, upsert: true, setDefaultsOnInsert: true, session }
                 );
-                result = { source, destination};
+                result = { source, destination };
             });
 
         } finally {

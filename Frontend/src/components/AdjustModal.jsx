@@ -11,7 +11,7 @@ export default function AdjustModal({ product, stores, onClose, onSubmit }) {
     setError('');
     setBusy(true);
     try {
-      await onSubmit({ productId: product._id, storeId, delta: Number(delta) });
+      await onSubmit({ productId: product._id, storeId, change: Number(delta) });
       onClose();
     } catch (err) {
       setError(err.message);
@@ -34,7 +34,7 @@ export default function AdjustModal({ product, stores, onClose, onSubmit }) {
             </select>
           </label>
           <label>
-            Delta (use a negative number to correct down)
+            Enter a positive number to add stock or a negative number to remove stock.
             <input type="number" value={delta} onChange={(e) => setDelta(e.target.value)} required />
           </label>
           {error && <p className="error">{error}</p>}
