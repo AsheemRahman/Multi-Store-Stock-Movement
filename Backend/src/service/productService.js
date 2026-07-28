@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
 import productRepository from "../repository/productRepository.js";
+
 
 class ProductService {
     async createProduct(productData) {

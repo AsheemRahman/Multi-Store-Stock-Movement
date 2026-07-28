@@ -104,7 +104,7 @@ export default function Dashboard() {
 
       {transferTarget && (
         <TransferModal
-          product={transferTarget}
+          stock={transferTarget}
           stores={stores}
           onClose={() => setTransferTarget(null)}
           onSubmit={async (payload) => {

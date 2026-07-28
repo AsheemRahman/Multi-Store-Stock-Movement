@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import authRepository from "../repository/authRepository.js";
 import PasswordUtils from "../utils/passwordUtils.js";
 

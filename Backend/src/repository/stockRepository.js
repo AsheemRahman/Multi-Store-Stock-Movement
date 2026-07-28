@@ -62,13 +62,13 @@ class StockRepository {
         return stock;
     }
 
-    async transferStock({ productId, sourceStoreId, destinationStoreId, quantity }) {
+    async transferStock({ productId, fromStoreId, toStoreId, quantity }) {
 
         if (quantity <= 0) {
             throw new Error("Quantity must be positive.");
         }
 
-        if (sourceStoreId === destinationStoreId) {
+        if (fromStoreId === toStoreId) {
             throw new Error("Stores cannot be the same.");
         }
 
@@ -79,22 +79,24 @@ class StockRepository {
                 const source = await Stock.findOneAndUpdate(
                     {
                         product: productId,
-                        store: sourceStoreId,
+                        store: fromStoreId,
                         quantity: { $gte: quantity }
-                    }, { $inc: { quantity: -quantity } }, { new: true, session }
+                    }, { $inc: { quantity: -quantity } }, { returnDocument: "after", session }
                 );
 
                 if (!source) {
-                    throw new Error("Insufficient stock.");
+                    throw new Error("Insufficient quantity or stock does not exist.");
                 }
 
                 const destination = await Stock.findOneAndUpdate(
-                    { product: productId, store: destinationStoreId }, { $inc: { quantity: quantity } },
-                    { new: true, upsert: true, setDefaultsOnInsert: true, session }
+                    { product: productId, store: toStoreId }, { $inc: { quantity: quantity } },
+                    { returnDocument: "after", upsert: true, setDefaultsOnInsert: true, session }
                 );
                 result = { source, destination };
             });
-
+        } catch (error) {
+            console.error(`Error occurred during stock transfer: ${error}`);
+            throw error;
         } finally {
             session.endSession();
         }

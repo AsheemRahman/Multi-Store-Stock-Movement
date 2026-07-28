@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-export default function TransferModal({ product, stores, onClose, onSubmit }) {
-  const [fromStoreId, setFromStoreId] = useState(stores[0]?._id || '');
-  const [toStoreId, setToStoreId] = useState(stores[1]?._id || stores[0]?._id || '');
+export default function TransferModal({ stock, stores, onClose, onSubmit }) {
+  const [fromStoreId, setFromStoreId] = useState(stock.store._id);
+  const [toStoreId, setToStoreId] = useState(stores.find(s => s._id !== stock.store._id)?._id || "");
   const [quantity, setQuantity] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -13,7 +13,7 @@ export default function TransferModal({ product, stores, onClose, onSubmit }) {
     setBusy(true);
     try {
       await onSubmit({
-        productId: product._id,
+        productId: stock.product._id,
         fromStoreId,
         toStoreId,
         quantity: Number(quantity),
@@ -29,7 +29,7 @@ export default function TransferModal({ product, stores, onClose, onSubmit }) {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h2>Transfer stock — {product.name}</h2>
+        <h2>Transfer stock — {stock.product.name}</h2>
         <form onSubmit={handleSubmit}>
           <label>
             From store
