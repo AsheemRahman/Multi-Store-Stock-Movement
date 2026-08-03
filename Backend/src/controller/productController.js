@@ -13,7 +13,7 @@ class ProductController {
         try {
             const { name, sku } = req.body;
 
-            if (!name || !name.trim() || !sku || !sku.trim()) {
+            if (!name?.trim() || !sku?.trim()) {
                 return res.status(STATUS_CODES.BAD_REQUEST).json({ message: ERROR_MESSAGES.INVALID_INPUT, });
             }
             const product = await productService.createProduct({ name: name.trim(), sku: sku.trim() });
