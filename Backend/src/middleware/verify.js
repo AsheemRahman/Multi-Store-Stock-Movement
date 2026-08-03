@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { STATUS_CODES } from "../constants/statusCode.js";
 import { ERROR_MESSAGES } from "../constants/errorMessage.js";
+import JwtUtility from '../utils/JwtUtility.js';
 
 
 export function requireAuth(req, res, next) {
@@ -13,7 +14,7 @@ export function requireAuth(req, res, next) {
     const token = authHeader.split(' ')[1];
 
     try {
-        const payload = jwt.verify(token, process.env.JWT_TOKEN_SECRET_KEY);
+        const payload = JwtUtility.verifyToken(token);
         req.user = { id: payload.id, role: payload.role, email: payload.email };
         return next();
     } catch (err) {

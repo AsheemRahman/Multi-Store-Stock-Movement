@@ -15,8 +15,8 @@ class JwtUtility {
         return jwt.sign(payload, refreshSecret, { expiresIn: "7d", });
     }
 
-    static verifyToken(token, isRefresh = false) {
-        const secret = isRefresh ? refreshSecret : accessSecret;
+    static verifyToken(token) {
+        const secret =  accessSecret;
         return jwt.verify(token, secret);
     }
 }
